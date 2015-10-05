@@ -2,81 +2,58 @@
     var chancetext = {};
 
     var Chance = function(obj) {
-        var base = this,
-            obj_arr = ($.makeArray(obj.children('span'))),
-            scale = 1.5;
+        var base = this;
+
+        base.init = function(){
+            base.start('in');
+        }    
 
 
-
-        base.out = function(obj_arr , setting_json ){
-        	var _obj_arr = obj_arr;
-
-            if( setting_json.out.mode === 'sequence'){
-                _obj_arr = obj_arr;
-            }else if(setting_json.out.mode === 'reverse'){
-                _obj_arr = _obj_arr.reverse();
-                
-            }else if(setting_json.out.mode === 'shuffle'){
-                for(var j , x , i = _obj_arr.length ; i ; j = parseInt(Math.random() * i) , x = _obj_arr[--i] , _obj_arr[i] = _obj_arr[j] , _obj_arr[j] =  x);
-                
-            }
-
-
-            $(_obj_arr).each(function(i , _this){
-                var delay = 50 * i * scale;
-                $(_this).css('visibility' , 'hidden');
-                setTimeout(function(){
-                    $(_this).css('visibility' , 'visible');
-                    $(_this).addClass('animated ' + setting_json.out.effect);
-                    $(_this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                        $(_this).removeClass('animated ' + setting_json.out.effect);
-                        if(obj.children('span').hasClass('animated') == false){
-                            obj.children('span').css('visibility','hidden');
-                        }
-
-                    });
-                } , delay);
-            });
-        }
-
-
-
-        base.start = function(){
-            var setting_json = obj.data('setting');
-                //animName = setting_json.in.effect;
-
-            if( setting_json.in.mode === 'sequence'){
-                base.animate(obj_arr , setting_json , base.out);
-            }else if(setting_json.in.mode === 'reverse'){
+        base.start = function(mode){
+            var setting_json = (obj.data('setting'))[mode],
+                obj_arr = ($.makeArray(obj.children('span')));
+            if( setting_json.mode === 'sequence'){
+                base.animate(obj_arr , setting_json , mode);
+            }else if(setting_json.mode === 'reverse'){
                 obj_arr = obj_arr.reverse();
-                base.animate(obj_arr , setting_json , base.out);
-            }else if(setting_json.in.mode === 'shuffle'){
+                base.animate(obj_arr , setting_json , mode);
+            }else if(setting_json.mode === 'shuffle'){
                 for(var j , x , i = obj_arr.length ; i ; j = parseInt(Math.random() * i) , x = obj_arr[--i] , obj_arr[i] = obj_arr[j] , obj_arr[j] =  x);
-                base.animate(obj_arr , setting_json , base.out);
+                base.animate(obj_arr , setting_json , mode);
             }
         }
 
-
-        base.animate = function(obj_arr , setting_json , cb){
-            $(obj_arr).each(function(i , _this){
-                var delay = 50 * i * scale;
-                setTimeout(function(){
-                    $(_this).css('visibility','visible');
-                    $(_this).addClass('animated ' + setting_json.in.effect);
-                    $(_this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                        $(_this).removeClass('animated ' + setting_json.in.effect);
-                        if(obj.children('span').hasClass('animated') == false){
-                            cb(obj_arr , setting_json );
-                        }
-
-                    });
-                } , delay);
-            });
+        base.animate = function(obj_arr , setting_json , mode){
+            obj.trigger("startEven-"+mode);
+            setTimeout(function(){
+                $(obj_arr).each(function(i , _this){
+                    var delay = setting_json.delay * i * setting_json.scale;
+                    //$(_this).css('visibility' , 'hidden');//兼容chrome！重影
+                    setTimeout(function(){
+                        $(_this).css('visibility' , 'visible');
+                        $(_this).addClass('animated ' + setting_json.effect);
+                        $(_this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                            $(_this).removeClass('animated ' + setting_json.effect);
+                            if(obj.children('span').hasClass('animated') == false) base[mode + "CB"]();
+                        });
+                    } , delay);
+                });
+            } , setting_json.startDelay)
         }
 
 
-        base.start();
+        base.outCB = function(){
+            obj.trigger("endEven-out");
+            obj.children('span').css('visibility' , 'hidden');
 
+        }
+
+        base.inCB = function(){
+            obj.trigger("endEven-in");
+            base.start('out');
+        }
+        
+        base.init();
     };
 
     chancetext.init = function(objs){
@@ -97,10 +74,16 @@
         loop: false,
         in:{
             effect: "flash",
+            startDelay : "1000",
+            scale : "1.5",
+            delay: 50,
             mode: "sequence"
         },
         out:{
             effect: "flash",
+            startDelay : "1000",
+            scale : "1.5",
+            delay: 50,
             mode: "sequence"
         }
     } ;

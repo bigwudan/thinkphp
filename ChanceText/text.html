@@ -34,7 +34,7 @@
 
 <!--鉴于一个jQuery对象，表示一个DOM元素的集合-->
 
-	<div class="chancetext" data-setting = '{"loop": true,"in":{"effect": "shake","mode": "sequence"},"out":{"effect": "bounce","mode": "reverse"}}'>
+	<div class="chancetext" data-setting = '{"loop": true,"in":{"effect": "bounce","startDelay" : "10", "scale" : "1.5" , "delay" : 50 , "mode": "shuffle"},"out":{"effect": "bounce","startDelay" : "1000", "scale" : "1.5" , "delay" : 50 , "mode": "reverse"}}'>
 		<span class="char" >A</span>
 		<span class="char" >B</span>
 		<span class="char" >C</span>
@@ -50,30 +50,30 @@
 
 	</div>
 
-	<div class="chanxxxcetext" data-setting = '{
-												"loop": true,
-												"in":{
-													"effect": "fadeInLeftBig",
-													"mode": "sequence"
-													},
-												"out":{
-													"effect": "fadeInLeftBig",
-													"mode": "sequence"
-													}
-											}'>
+	<div class="chancetext" data-setting = '{"loop": true,"in":{"effect": "bounce","startDelay" : "10", "scale" : "1.5" , "delay" : 50 , "mode": "shuffle"},"out":{"effect": "bounce","startDelay" : "1000", "scale" : "1.5" , "delay" : 50 , "mode": "reverse"}}'>
 		<span class="char" >G</span>
 		<span class="char" >r</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>		
 	</div>
 
-	<div class="chanxxxcetext" data-setting = '{
-												"loop": true,
-												"in":{
-													"effect": "fadeInLeftBig",
-													"mode": "sequence"
-													}
-											}'>
+		<div class="chancetext" data-setting = '{"loop": true,"in":{"effect": "bounce","startDelay" : "10", "scale" : "1.5" , "delay" : 50 , "mode": "shuffle"},"out":{"effect": "bounce","startDelay" : "1000", "scale" : "1.5" , "delay" : 50 , "mode": "reverse"}}'>
 		<span class="char" >G</span>
 		<span class="char" >r</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>		
 	</div>
 
 <input type="button" value="开始正动画" onclick="start(this)" /><br>
@@ -90,6 +90,7 @@
 <script type="text/javascript">
 	
 function test(){
+	$('.chancetext').on("startEven-out",function(){console.log('startOutEven...')});
 
 	chancetext.init($('.chancetext'));
 	
