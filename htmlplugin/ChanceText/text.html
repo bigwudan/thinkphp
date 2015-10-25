@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="animate.css">
+
+
+
+
+<body>
+<style type="text/css">
+	.word1{
+		margin: 50px auto;
+		background-color: black;
+		color: #fff;
+		font-size: 20px;
+		text-align: center;
+		height: 80px;
+		line-height: 20px;
+
+	}
+	.chancetext span{
+		display: inline-block;
+		margin-top:20px;
+		visibility: hidden;
+	}
+
+
+</style>
+
+
+<!--鉴于一个jQuery对象，表示一个DOM元素的集合-->
+
+	<div class="chancetext" data-setting = '{
+												"loop": true,
+												"in":{
+													"effect": "bounce",
+													"startDelay" : "100", 
+													"scale" : "1.5" , 
+													"delay" : 50 , 
+													"mode": "shuffle"
+													},
+												"out":{
+													"effect": "bounce",
+													"startDelay" : "100", 
+													"scale" : "1.5" , 
+													"delay" : 50 , 
+													"mode": "reverse"
+													}
+											}'>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+
+	</div>
+
+	<div class="xxchancetext" data-setting = '{"loop": true,"in":{"effect": "bounce","startDelay" : "10", "scale" : "1.5" , "delay" : 50 , "mode": "shuffle"},"out":{"effect": "bounce","startDelay" : "1000", "scale" : "1.5" , "delay" : 50 , "mode": "reverse"}}'>
+		<span class="char" >G</span>
+		<span class="char" >r</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>		
+	</div>
+
+		<div class="xxchancetext" data-setting = '{"loop": true,"in":{"effect": "bounce","startDelay" : "10", "scale" : "1.5" , "delay" : 50 , "mode": "shuffle"},"out":{"effect": "bounce","startDelay" : "1000", "scale" : "1.5" , "delay" : 50 , "mode": "reverse"}}'>
+		<span class="char" >G</span>
+		<span class="char" >r</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>
+		<span class="char" >A</span>
+		<span class="char" >B</span>
+		<span class="char" >C</span>
+		<span class="char" >D</span>		
+	</div>
+
+<input type="button" value="开始正动画" onclick="start(this)" /><br>
+	<br>
+	<br>
+	<input type="button" value="开始反动画" onclick="reverse(this)" />
+	<br>
+	<br>
+	<input type="button" value="test" onclick="test(this)" />
+
+
+<script type="text/javascript" src="chancetext.js"></script>
+
+<script type="text/javascript">
+	
+function test(){
+	$('.chancetext').on("startEven-out",function(){console.log('startOutEven...')});
+
+	chancetext.init($('.chancetext'));
+	
+}
+
+
+</script>
+
+
+
+	<script type="text/javascript">
+	//随机排序
+	function shuffe(){
+		var arr = $('.word1 span').toArray();
+		for(var j , x , i = arr.length ; i ; j = parseInt(Math.random() * i) , x = arr[--i] , arr[i] = arr[j] , arr[j] =  x);
+		$(arr).each(function(i , _this){
+			var delay = 50 * i * 1.5;
+			setTimeout(function(){
+				$(_this).css('visibility','visible');
+				$(_this).addClass('animated bounce');
+
+			     $(_this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+			        $(_this).removeClass('animated bounce');
+			         console.log('finish');
+			     });				
+
+			} , delay);
+		});
+
+
+	}
+	
+	function start(_this){
+
+
+		$('.chancetext span').each(function(i , _this){
+			$(_this).css('visibility','hidden');
+			var delay = 50 * i * 10;
+			setTimeout(function(){
+				$(_this).css('visibility','visible');
+				$(_this).addClass('animated bounce');
+				console.group('group');
+				console.log(_this);
+				console.groupEnd('end');
+
+			} , delay);
+
+		});
+
+		//console.log($('.chancetext span').eq(0).css('visibility'));
+//		$('.chancetext span').eq(0).addClass('animated bounce');
+//
+//		for(var i=0 ; 200>i ; console.log('xx'), i++);
+//
+//		$('.chancetext span').eq(1).addClass('animated bounce');
+//		for(var i=0 ; 200>i ; console.log('xx'), i++);
+//
+//		$('.chancetext span').eq(2).addClass('animated bounce');
+//		for(var i=0 ; 200>i ; console.log('xx'), i++);
+//
+//		$('.chancetext span').eq(3).addClass('animated bounce');
+
+	}
+
+	function reverse(_this){
+		var tmp_arr = new Array();
+		$('.word1 span').each(function(i , _this){
+			tmp_arr.push(_this);
+		});
+		var reverse_arr = tmp_arr.reverse();
+		$(reverse_arr).each(function(i , _this){
+			var delay = 50 * i * 1.5;
+			setTimeout(function(){
+				$(_this).css('visibility','visible');
+				$(_this).addClass('animated bounce');
+
+			     $(_this).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+			        $(_this).removeClass('animated bounce');
+			         console.log('finish');
+			     });				
+
+			} , delay);
+
+		});
+
+	}
+	
+
+	
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
