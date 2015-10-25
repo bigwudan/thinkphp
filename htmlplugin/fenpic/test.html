@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<!--
+	图片聚合、散出动画
+	原网站:http://www.75team.com/
+
+-->
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<style type="text/css">
+.container{
+	width:304px;
+	height:793px;
+	border: 0px solid red;
+	font-size: 0;
+	position:absolute;
+	left:50%;
+
+}
+.piece{
+	width: 76px;
+	height: 159px;
+	display: inline-block;
+	border: 0px solid red;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+	background-image: url(2_1.png);
+	background-repeat: no-repeat;
+	transition: 0.6s all ease;
+	-webkit-transition: 0.6s all ease;
+	-webkit-transform:translate(0,0) translateZ(0) scale(1,1) rotateX(0deg) rotateY(0deg);		
+}
+
+.div1{
+
+	/*transform: translate3d(0px, 0px, 0px);*/
+	/*transition: 0.6s all ease;
+	-webkit-transition: 0.6s all ease;
+	-webkit-transform:translate(0,0) translateZ(0) scale(1,1) rotateX(0deg) rotateY(0deg);	*/
+}
+
+</style>
+
+
+<div class="container">
+	<div class="piece div1"></div><!--
+	--><div class="piece div2"></div><!--
+	--><div class="piece div3"></div><!--
+	--><div class="piece div4"></div><!--
+	--><div class="piece div5"></div><!--
+	--><div class="piece div6"></div><!--
+	--><div class="piece div7"></div><!--
+	--><div class="piece div8"></div><!--
+	--><div class="piece div9"></div><!--
+	--><div class="piece div10"></div><!--
+	--><div class="piece div11"></div><!--
+	--><div class="piece div12"></div><!--
+	--><div class="piece div13"></div><!--
+	--><div class="piece div14"></div><!--
+	--><div class="piece div15"></div><!--
+	--><div class="piece div16"></div><!--
+	--><div class="piece div17"></div><!--
+	--><div class="piece div18"></div><!--
+	--><div class="piece div19"></div><!--
+	--><div class="piece div20"></div>
+</div>
+
+
+<script type="text/javascript">
+
+
+function rnd(n, m)
+{
+	return parseInt(Math.random()*(m-n)+n);
+}
+
+function countX(n){
+	if( (n % 4) == 0 ){
+		return 228;
+	}else{
+		return (76*((n % 4) - 1));
+	}
+}
+
+function countY(n){
+	var y = Math.ceil(n/4);
+	y = 159*(y - 1);
+	return y;
+}
+
+
+function start () {
+	for(var i =0 ; i<20 ; i++  ){
+		var num = i + 1;
+		var x = -countX(num) + "px";
+		var y = -countY(num) + "px";
+		var point = x + " " + y;
+		 $(".div" + num).css("background-position",point);
+	}
+	return true;
+}
+
+function startAm(){
+
+	var divCX = document.getElementsByClassName('container')[0].offsetWidth/2;
+	var divCY = document.getElementsByClassName('container')[0].offsetHeight/2;
+
+	for( var i = 0 ; i < 20 ; i++   ){
+		var num = i + 1;
+		var str = "div" + num;
+		var subObj = document.getElementsByClassName(str)[0];
+		var l=subObj.offsetLeft+subObj.offsetWidth/2;
+		var t=subObj.offsetTop+subObj.offsetHeight/2;	
+		var disX=l-divCX;
+		var disY=t-divCY;
+		subObj.style.WebkitTransform='translate3d('+disX+'px, '+disY+'px, 600px) rotateY('+rnd(-180, 180)+'deg) rotateX('+rnd(-180, 180)+'deg) scale(2,2)';
+		subObj.style.opacity=0;		
+	}
+
+}
+
+start ();
+
+</script>
+
+
+	
+</body>
+</html>
