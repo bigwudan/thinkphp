@@ -145,7 +145,7 @@ EOT;
     }
 
     /**
-     * 迭代tree
+     * 迭代 tree
      * @param array $varData
      * @param string $varParent
      * @param string $varChildren
